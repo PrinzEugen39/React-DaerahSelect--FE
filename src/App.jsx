@@ -13,68 +13,28 @@ export default function App() {
 
   async function getProvince() {
     try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/provinces.json"
-      );
-      const dataProvince = await res.json();
+      const resProvince = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/provinces.json");
+      const dataProvince = await resProvince.json();
+
+      const resRegencies = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/regencies.json");
+      const dataRegencies = await resRegencies.json();
+
+      const resSubdisctricts = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/districts.json");
+      const dataSubdisricts = await resSubdisctricts.json();
+
+      const resWards = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/villages.json");
+      const dataWards = await resWards.json();
 
       setProvinces(dataProvince);
-      // console.log(dataProvince)
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-  useEffect(() => {
-    getProvince();
-  }, []);
-
-  async function getRegencies() {
-    try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/regencies.json"
-      );
-      const dataRegencies = await res.json();
-
       setRegencies(dataRegencies);
-      // console.log(dataRegencies)
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-  useEffect(() => {
-    getRegencies();
-  }, []);
-
-  async function getSubdisctricts() {
-    try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/districts.json"
-      );
-      const dataSubdisricts = await res.json();
-      // console.log(dataSubdisricts)
       setSubdistricts(dataSubdisricts);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-  useEffect(() => {
-    getSubdisctricts();
-  }, []);
-
-  async function getWards() {
-    try {
-      const res = await fetch(
-        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/villages.json"
-      );
-      const dataWards = await res.json();
-      // console.log(dataWards);
       setWard(dataWards);
     } catch (error) {
       console.error(error.message);
     }
   }
   useEffect(() => {
-    getWards();
+    getProvince();
   }, []);
 
   return (
@@ -95,16 +55,20 @@ export default function App() {
       >
         Regencies
       </Place>
-      <Place 
-        option={"Select a subdistrict"} 
-        content={subdistricts.filter(subdisctict => subdisctict.regency_id === selectedRegencies)}
+      <Place
+        option={"Select a subdistrict"}
+        content={subdistricts.filter(
+          (subdisctict) => subdisctict.regency_id === selectedRegencies
+        )}
         handleSelect={setSelectedSubdistricts}
       >
         Subdistricts
       </Place>
-      <Place 
-        option={"Select a ward"} 
-        content={ward.filter(wards => wards.district_id === selectedSubdistricts)}
+      <Place
+        option={"Select a ward"}
+        content={ward.filter(
+          (wards) => wards.district_id === selectedSubdistricts
+        )}
       >
         Wards
       </Place>
@@ -116,7 +80,10 @@ function Place({ children, option, content, handleSelect }) {
   return (
     <div className="container">
       <span>{children}</span>
-      <select placeholder="select" onChange={e => handleSelect && handleSelect(e.target.value)}>
+      <select
+        placeholder="select"
+        onChange={(e) => handleSelect && handleSelect(e.target.value)}
+      >
         <option value="" hidden>
           {option}
         </option>
