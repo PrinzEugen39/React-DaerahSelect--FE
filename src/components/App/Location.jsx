@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import "./assets/App.css";
+import "../../assets/App.css";
 
-export default function App() {
+export default function Location() {
   const [provinces, setProvinces] = useState([]);
   const [selectedProvinces, setSelectedProvinces] = useState(null);
   const [regencies, setRegencies] = useState([]);
