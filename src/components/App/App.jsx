@@ -1,18 +1,20 @@
+
 import { useState } from "react";
 import Location from "./Location";
 import Table from "./table";
 
+
 function App() {
-  const [items, setItems] = useState([])
+  const [prov, setProv] = useState(null)
 
-  function handleAddItems(item) {
-    setItems((items) => [...items, item]);
+  function handleAddInput(input) {
+    setProv(input)
   }
-
+  
   return (
     <>
-      <Location onAddItems={handleAddItems}/>
-      <Table items={items}/>
+      <Location onAddInput={handleAddInput}/>
+      <Table input={prov}/>
     </>
   );
 }

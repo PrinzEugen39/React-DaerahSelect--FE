@@ -1,8 +1,18 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
-function InputTodo({ province }) {
-  const [description, setDescription] = useState(province);
+function InputTodo({ addInput }) {
+  const province = addInput
+
+  const [description, setDescription] = useState(province ? province.name : "");
+  if (province) console.log(province.name)
+
+  useEffect(() => {
+    if (province) {
+      setDescription(province.name);
+    }
+  }, [province]);
+
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -25,14 +35,14 @@ function InputTodo({ province }) {
 
   return (
     <Fragment>
-      <h1 className="text-center mt-5">PERN Todo List</h1>
+      <h1 className="text-center mt-5">Province Add ?</h1>
       <form className="d-flex flex-column mt-3" onSubmit={onSubmitForm}>
         <label className="form-label">Todo</label>
         <input
           type="text"
           className="form-control"
           placeholder="input todo"
-          value={description}
+          value={description ? description : ""}
           onChange={(e) => setDescription(e.target.value)}
         />
         <div className="d-grid gap-2 col-3 mx-auto">

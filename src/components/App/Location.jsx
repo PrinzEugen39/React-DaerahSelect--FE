@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../../assets/App.css";
 
-export default function Location({ onAddItems }) {
+export default function Location({ onAddInput }) {
   const [provinces, setProvinces] = useState([]);
   const [selectedProvinces, setSelectedProvinces] = useState(null);
   const [regencies, setRegencies] = useState([]);
@@ -11,41 +11,45 @@ export default function Location({ onAddItems }) {
   const [selectedSubdistricts, setSelectedSubdistricts] = useState(null);
   const [ward, setWard] = useState([]);
 
-
-
   async function getProvince() {
     try {
-      const resProvince = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/provinces.json");
+      const resProvince = await fetch(
+        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/provinces.json"
+      );
       const dataProvince = await resProvince.json();
 
-      const resRegencies = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/regencies.json");
+      const resRegencies = await fetch(
+        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/regencies.json"
+      );
       const dataRegencies = await resRegencies.json();
 
-      const resSubdisctricts = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/districts.json");
+      const resSubdisctricts = await fetch(
+        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/districts.json"
+      );
       const dataSubdisricts = await resSubdisctricts.json();
 
-      const resWards = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/villages.json");
+      const resWards = await fetch(
+        "https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/villages.json"
+      );
       const dataWards = await resWards.json();
-
-
-    
 
       setProvinces(dataProvince);
       setRegencies(dataRegencies);
       setSubdistricts(dataSubdisricts);
       setWard(dataWards);
-
-      const newItem = provinces.map(name => name.name)
-      onAddItems(newItem);
-      console.log(newItem)
     } catch (error) {
       console.error(error.message);
     }
   }
   useEffect(() => {
     getProvince();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const selectedProvinceObject = provinces.find(
+    (province) => province.id === selectedProvinces
+  );
+  onAddInput(selectedProvinceObject);
 
   return (
     <div className="main">
@@ -82,6 +86,16 @@ export default function Location({ onAddItems }) {
       >
         Wards
       </Place>
+      <div className="d-grid gap-2 col-5 mx-auto my-4">
+        <label className="form-label">Location Check</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="input the form"
+          value={selectedProvinceObject ? selectedProvinceObject.name : ""}
+          disabled
+        />
+      </div>
     </div>
   );
 }
@@ -109,8 +123,8 @@ function Place({ children, option, content, handleSelect }) {
 }
 
 Location.propTypes = {
-  onAddItems: PropTypes.func
-}
+  onAddItems: PropTypes.func,
+};
 
 Place.propTypes = {
   children: PropTypes.node.isRequired,

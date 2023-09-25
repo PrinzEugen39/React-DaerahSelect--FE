@@ -8,7 +8,7 @@ function ListTodos() {
     try {
       const res = await fetch("http://localhost:5000/todos");
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       setTodos(data);
     } catch (error) {
       console.error(error.message);
