@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../../assets/App.css";
 
-export default function Location() {
+export default function Location({ onAddItems }) {
   const [provinces, setProvinces] = useState([]);
   const [selectedProvinces, setSelectedProvinces] = useState(null);
   const [regencies, setRegencies] = useState([]);
@@ -10,6 +10,8 @@ export default function Location() {
   const [subdistricts, setSubdistricts] = useState([]);
   const [selectedSubdistricts, setSelectedSubdistricts] = useState(null);
   const [ward, setWard] = useState([]);
+
+
 
   async function getProvince() {
     try {
@@ -25,16 +27,24 @@ export default function Location() {
       const resWards = await fetch("https://raw.githubusercontent.com/vionaaindah/GeoID-API/main/villages.json");
       const dataWards = await resWards.json();
 
+
+    
+
       setProvinces(dataProvince);
       setRegencies(dataRegencies);
       setSubdistricts(dataSubdisricts);
       setWard(dataWards);
+
+      const newItem = provinces.map(name => name.name)
+      onAddItems(newItem);
+      console.log(newItem)
     } catch (error) {
       console.error(error.message);
     }
   }
   useEffect(() => {
     getProvince();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -96,6 +106,10 @@ function Place({ children, option, content, handleSelect }) {
       </select>
     </div>
   );
+}
+
+Location.propTypes = {
+  onAddItems: PropTypes.func
 }
 
 Place.propTypes = {

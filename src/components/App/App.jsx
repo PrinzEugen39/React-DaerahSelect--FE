@@ -1,17 +1,21 @@
-import { Fragment } from "react";
-//components
-import InputTodo from "../CRUD/InputTodo.jsx";
-import ListTodos from "../CRUD/ListTodo.jsx";
+import { useState } from "react";
+import Location from "./Location";
+import Table from "./table";
 
 function App() {
+  const [items, setItems] = useState([])
+
+  function handleAddItems(item) {
+    setItems((items) => [...items, item]);
+  }
+
   return (
-    <Fragment>
-      <div className="container mx-auto p-2">
-        <InputTodo />
-        <ListTodos />
-      </div>
-    </Fragment>
+    <>
+      <Location onAddItems={handleAddItems}/>
+      <Table items={items}/>
+    </>
   );
 }
+
 
 export default App;

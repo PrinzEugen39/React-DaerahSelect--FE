@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 function EditTodo({ todo }) {
   const [description, setDescription] = useState(todo.description);
@@ -85,6 +86,9 @@ function EditTodo({ todo }) {
       </div>
     </React.Fragment>
   );
+}
+EditTodo.propTypes = {
+  todo: PropTypes.array
 }
 
 export default EditTodo;

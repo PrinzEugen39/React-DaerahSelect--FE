@@ -1,7 +1,8 @@
 import { Fragment, useState } from "react";
 
-function InputTodo() {
-  const [description, setDescription] = useState("");
+// eslint-disable-next-line react/prop-types
+function InputTodo({ province }) {
+  const [description, setDescription] = useState(province);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
